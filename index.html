@@ -968,7 +968,7 @@
   </footer>
 
   <script>
-    function setLanguage(lang) {
+  function setLanguage(lang) {
       document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
       document.querySelectorAll('.en').forEach(el => el.classList.toggle('hidden', lang !== 'en'));
       document.querySelectorAll('.ar').forEach(el => el.classList.toggle('hidden', lang !== 'ar'));
@@ -1365,6 +1365,7 @@ function openLiveSupport() {
   document.getElementById('headerMz').value = mzPoints;
   document.getElementById('headerUsd').value = userBalanceUSD.toFixed(2);
 }
+
   // Initial balances
   let mzPoints = 1564;
   let userBalanceUSD = 12.49;
