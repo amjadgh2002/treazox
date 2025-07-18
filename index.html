@@ -1444,6 +1444,35 @@ function openLiveSupport() {
     alert(`Transferred ${amount} MZ → $${usdAmount.toFixed(2)}`);
     backToMain();
   }
+    // Example conversion rate: 1 MZ point = $0.01
+  const conversionRate = 0.01;
+
+  function updateConvertedAmount() {
+    const mzInput = document.getElementById('mzInput').value;
+    const converted = mzInput * conversionRate;
+    document.getElementById('convertedAmount').value = `$${converted.toFixed(2)}`;
+  }
+
+  function submitTransfer() {
+    const mzPoints = document.getElementById('mzInput').value;
+    if (!mzPoints || mzPoints <= 0) {
+      alert('Please enter a valid number of MZ Points to transfer.');
+      return;
+    }
+
+    // Example: Show an alert (replace with your actual transfer logic)
+    alert(`You are transferring ${mzPoints} MZ Points.`);
+
+    // After successful transfer, you can reset inputs or hide the transfer view
+    document.getElementById('mzInput').value = '';
+    document.getElementById('convertedAmount').value = '$0.00';
+  }
+
+  function backToMain() {
+    // Example: Hide transfer view, show main view (you can adjust this)
+    document.getElementById('transferView').classList.add('hidden');
+    // Show main view code here (if you have)
+  }
 
   // Initialize wallet display on load
   window.addEventListener('DOMContentLoaded', updateWalletInfo);
