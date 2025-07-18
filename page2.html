@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TreazoX - Play & Win</title>
+  <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: #0d0a1a;
+      color: #ffffff;
+      direction: ltr;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background: #1c1432;
+      border-bottom: 1px solid #3d2f5e;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo img {
+      width: 30px;
+      margin-right: 10px;
+    }
+    .logo h1 {
+      margin: 0;
+      color: #ffffff;
+      font-size: 1.5em;
+    }
+    .header-center {
+      color: #ffffff;
+      font-size: 1em;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+    }
+    .header-right button, .lang-toggle button {
+      background: #3b2d5a;
+      color: rgb(255, 255, 255);
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .profile-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: url('https://cdn-icons-png.flaticon.com/512/149/149071.png') center/cover no-repeat;
+      cursor: pointer;
+    }
+    .profile-menu {
+      display: none;
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background: #2b2144;
+      border: 1px solid #3d2f5e;
+      border-radius: 8px;
+      overflow: hidden;
+      z-index: 100;
+      width: 200px;
+    }
+    .profile-menu div {
+      padding: 10px 15px;
+      border-bottom: 1px solid #3d2f5e;
+      cursor: pointer;
+    }
+    .profile-menu div:last-child {
+      border-bottom: none;
+      color: red;
+    }
+    .profile-menu div:hover {
+      background: #3d2f5e;
+    }
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #c77dff 0%, #5f2e91 100%);
+      color: #0d0a1a;
+    }
+    .hero img {
+      width: 400px;
+      margin: 20px 0;
+    }
+    .hero p {
+      max-width: 600px;
+      margin: auto;
+      font-size: 1.2em;
+    }
+
+.live-support-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  background: #2a1d44;
+  border: 1px solid #5f2e91;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  padding: 15px;
+  z-index: 9999;
+  display: none;
+  color: white;
+}
+.live-support-box h3 {
+  margin-top: 0;
+}
+.chat-messages {
+  height: 150px;
+  overflow-y: auto;
+  background: #1c1432;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+.live-support-box input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+.close-chat {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.profile-popup-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  background: #2a1d44;
+  border: 2px solid #5f2e91;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  padding: 25px;
+  z-index: 9999;
+  display: none;
+  color: white;
+  text-align: center;
+}
+.close-profile-box {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+.side-buttons {
+  position: absolute;
+  top: 120px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  z-index: 2;
+}
+
+.button-item {
+  background: #2a1d44;
+  border: 1px solid #5f2e91;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  width: 100px;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0,0,0,0.4);
+  transition: transform 0.3s;
+}
+
+.button-item:hover {
+  transform: scale(1.05);
+}
+
+.button-item img {
+  width: 150px;
+  margin-bottom: 5px;
+}
+
+.button-item span {
+  display: block;
+  font-size: 0.9em;
+  color: #fff;
+}
+.side-buttons {
+  position: absolute;
+  top: 120px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  z-index: 2;
+}
+
+.button-item {
+  background: #2a1d44;
+  border: 1px solid #5f2e91;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  width: 130px; /* More space for image */
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0,0,0,0.4);
+  transition: transform 0.3s;
+}
+
+.button-item:hover {
+  transform: scale(1.05);
+}
+
+.button-item img {
+  width: 100%;        /* Fit inside the button */
+  height: auto;
+  border-radius: 8px; /* Optional: make image smooth */
+  margin-bottom: 6px;
+}
+
+.button-item span {
+  display: block;
+  font-size: 0.9em;
+  color: #fff;
+  margin-top: 4px;
+}
+
+.delete-account-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #2a1d44;
+  border: 2px solid #5f2e91;
+  border-radius: 12px;
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  z-index: 9999;
+  color: white;
+  text-align: center;
+  display: none;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.close-delete-box {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.delete-account-box h2 {
+  margin-bottom: 10px;
+}
+
+.delete-account-box p {
+  font-size: 0.95em;
+  margin-bottom: 20px;
+}
+
+.delete-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.btn-delete {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-cancel {
+  background-color: white;
+  color: #2a1d44;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
+.wallet-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  .wallet-box {
+    background: #2a1d44;
+    border: 2px solid #5f2e91;
+    border-radius: 14px;
+    padding: 30px 20px;
+    width: 320px;
+    color: white;
+    position: relative;
+    text-align: center;
+  }
+  .wallet-close {
+    position: absolute;
+    top: 10px; right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+  }
+  .wallet-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  .wallet-options div {
+    background: #412c65;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .wallet-options div:hover {
+    background: #6e4ac5;
+  }
+  .profile-popup-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #2a1d44;
+    padding: 25px 30px;
+    border-radius: 16px;
+    width: 350px;
+    max-width: 90vw;
+    color: white;
+    box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    z-index: 10000;
+    text-align: center;
+  }
+  .profile-popup-box .close-profile-box {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 26px;
+    color: white;
+    cursor: pointer;
+  }
+  .hidden {
+    display: none;
+  }
+.wallet-info-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #2a1d44;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #5f2e91;
+}
+
+.wallet-value {
+  display: flex;
+  align-items: center;
+  background: #1c1432;
+  border-radius: 8px;
+  padding: 5px 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.wallet-value label {
+  margin-right: 6px;
+  font-size: 0.9em;
+  color: #c77dff;
+}
+
+.wallet-value input {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1em;
+  width: 50px;
+  text-align: right;
+}
+
+.wallet-value input:focus {
+  outline: none;
+}
+
+.wallet-open-btn {
+  background: #5f2e91;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.wallet-open-btn:hover {
+  background: #744cbb;
+}
+.chat-choice-btn {
+    padding: 8px 10px;
+    background: #5f2e91;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+  }
+
+  .chat-choice-btn:hover {
+    background: #744cbb;
+  }
+   body {
+  margin: 0;
+  padding: 15px;
+  font-family: 'Outfit', sans-serif;
+  background-color: #0f0f0f;
+  color: white;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.top-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+.video-box {
+  flex: 1 1 280px; /* Flexible and responsive */
+  max-width: 100%;
+  background-color: #1c1c1c;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease;
+}
+
+.video-box:hover {
+  transform: scale(1.02);
+}
+
+.video-box h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  color: #ffd700;
+  font-weight: 600;
+  text-align: center;
+}
+
+.video-box iframe {
+  width: 100%;
+  height: 220px;
+  border-radius: 10px;
+  border: none;
+}
+
+    .bid-info {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .small-box {
+      background-color: #1c1c1c;
+      padding: 12px;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.4);
+    }
+
+    .small-box h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      color: #ffd700;
+    }
+
+    .small-box p {
+      font-size: 16px;
+      color: #00ff99;
+      margin: 0;
+    }
+
+    .bid-input {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .bid-input input {
+      flex: 1;
+      padding: 6px 8px;
+      border: none;
+      border-radius: 8px;
+      background-color: #2a2a2a;
+      color: white;
+      font-size: 14px;
+    }
+
+    .bid-input button {
+      padding: 6px 12px;
+      background-color: #00cc66;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .last-bids {
+      max-width: 500px;
+      width: 100%;
+      background-color: #1c1c1c;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.4);
+    }
+
+    .last-bids h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #ffd700;
+    }
+
+    .last-bids div {
+      padding: 8px 0;
+      border-bottom: 1px solid #333;
+      font-size: 14px;
+    }
+
+    .last-bids div:last-child {
+      border-bottom: none;
+    }
+
+    .last-bids strong {
+      color: #00aced;
+    }
+
+    .last-bids span {
+      color: #00ff99;
+    }
+
+    @media (max-width: 768px) {
+      .top-section {
+        flex-direction: column;
+      }
+
+      .bid-info {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .small-box {
+        flex: 1;
+        min-width: 140px;
+      }
+    }
+     .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .hidden-link {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none; /* إلغاء الخط السفلي */
+    margin-left: 10px;
+    cursor: default; /* لا يظهر أنه رابط */
+  }
+
+  .hidden-link:hover {
+    text-decoration: none; /* لا يتغير عند المرور */
+  }
+  </style>
+</head>
+<body>
+  <header>
+  <div class="logo">
+    <a href="file:///C:/Users/user/OneDrive/Desktop/index.htm">
+      <img src="https://i.ibb.co/pBPd0HvB/large-removebg-preview.png" alt="TreazoX Logo" border="0">
+    </a>
+    <a href="index.html" class="hidden-link">TreazoX</a>
+  </div>
+    <div class="header-center">
+  <div class="wallet-info-box">
+    <div class="wallet-value">
+      <label>$</label>
+      <input type="text" value="12.49" readonly />
+    </div>
+    <div class="wallet-value">
+      <label>MZ</label>
+      <input type="text" value="100" readonly />
+    </div>
+    <button class="wallet-open-btn" onclick="openWalletModal()">Wallet</button>
+  </div>
+</div>
+
+
+    <div class="header-right">
+      <div class="lang-toggle">
+        <button onclick="setLanguage('en')">EN</button>
+        <button onclick="setLanguage('ar')">AR</button>
+      </div>
+      <div class="profile-icon" onclick="toggleProfileMenu()"></div>
+      <div class="profile-menu" id="profileMenu">
+  <div onclick="openProfileBox()">👤 Profile</div>
+<div class="wallet-button" onclick="openWalletModal()">💼 Wallet</div>
+  <div onclick="openSettingsBox()">⚙️ Settings</div>
+  <div onclick="openLiveSupport()">📞 Live Support</div>
+  <div style="color:red;" onclick="openDeleteBox()">🗑️ Delete Account</div>
+</div>
+    </div>
+  </header>
+
+
+  
+<!-- 💬 Live Support Chat Box -->
+<div id="liveSupportBox" style="display: none; position: fixed; bottom: 30px; right: 30px; width: 340px; background: #2a1d44; color: white; padding: 20px; border-radius: 12px; border: 1px solid #5f2e91; z-index: 9999; box-shadow: 0 0 20px rgba(0,0,0,0.6);">
+  <button onclick="closeLiveSupport()" style="position: absolute; top: 10px; right: 12px; background: none; border: none; font-size: 22px; color: white; cursor: pointer;">×</button>
+
+  <div id="chatStep1">
+    <h3 style="margin-top: 0;">💬 Live Support</h3>
+    <p>What is your issue?</p>
+    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+      <button onclick="startChat('💳 Payment Issue')" class="chat-choice-btn">💳 Payment Issue</button>
+      <button onclick="startChat('🧾 Account Issue')" class="chat-choice-btn">🧾 Account Issue</button>
+      <button onclick="startChat('⚙️ Website / Technical Issue')" class="chat-choice-btn">⚙️ Website / Technical Issue</button>
+      <button onclick="startChat('🎁 Bonus / Rewards Issue')" class="chat-choice-btn">🎁 Bonus / Rewards Issue</button>
+      <button onclick="startChat('🎮 Games or Bids Issue')" class="chat-choice-btn">🎮 Games or Bids Issue</button>
+    </div>
+  </div>
+
+  <div id="chatStep2" style="display: none;">
+    <h3 style="margin-top: 0;">💬 Live Chat</h3>
+    <div id="chatMessages" style="background: #1c1432; padding: 10px; border-radius: 8px; height: 120px; overflow-y: auto; margin-bottom: 10px; font-size: 14px;">
+      <!-- Messages will appear here -->
+    </div>
+    <textarea id="userMessage" placeholder="Write your message..." style="width: 100%; height: 60px; padding: 10px; border-radius: 8px; background: #1c1432; color: white; border: none; resize: none;"></textarea>
+    <button onclick="sendUserMessage()" style="margin-top: 8px; width: 100%; padding: 10px; background: #5f2e91; border: none; color: white; border-radius: 8px; cursor: pointer;">Send</button>
+  </div>
+</div>
+
+
+
+<!-- 👤 Profile Box -->
+<div class="profile-popup-box" id="profilePopupBox">
+  <button class="close-profile-box" onclick="closeProfileBox()">×</button>
+  <h2>👤 Profile</h2>
+  <p><strong>Name:</strong> John Doe</p>
+  <p><strong>Birth Date:</strong> 1998-08-15</p>
+  <p><strong>Email:</strong> john@example.com</p>
+  <hr style="margin: 20px 0; border-color: #5f2e91;">
+  <p><strong>Share this code with friends:</strong></p>
+  <p style="font-size: 1.5em; color: #c77dff;"><code>524976</code></p>
+  <p>Earn <strong>100 MZ</strong> for every friend who joins!</p>
+</div>
+
+<!-- Single Wallet Modal -->
+<div id="walletModal" class="wallet-modal hidden">
+  <div class="wallet-box">
+    <button class="wallet-close" onclick="closeWalletModal()">×</button>
+    <h2 id="walletTitle">My Wallet</h2>
+    
+    <div id="walletMainView" class="wallet-main-view">
+      <div class="wallet-options">
+        <div onclick="showAction('withdraw')">💸 Withdraw</div>
+        <div onclick="showAction('deposit')">💰 Deposit</div>
+        <div onclick="showAction('transfer')">🔁 Transfer MZ</div>
+      </div>
+    </div>
+    
+    <!-- Action Views -->
+    <div id="withdrawView" class="wallet-action-view hidden">
+      <p><strong>Amount to Withdraw ($):</strong></p>
+      <input type="number" id="withdrawAmount" placeholder="e.g. 25" style="width: 80%; padding: 8px; margin-bottom: 15px; border-radius: 8px; border: none; text-align: center;" />
+      <p><strong>PayPal Email:</strong></p>
+      <input type="email" id="paypalEmail" placeholder="you@example.com" style="width: 80%; padding: 8px; margin-bottom: 20px; border-radius: 8px; border: none; text-align: center;" />
+      <button onclick="submitWithdraw()" style="padding: 10px 20px; border: none; border-radius: 20px; background: #c77dff; color: white; font-weight: bold; cursor: pointer;">Withdraw</button>
+      <button onclick="backToMain()" style="margin-top: 15px; padding: 6px 14px; border: none; border-radius: 14px; background: #412c65; color: white; cursor: pointer;">Back</button>
+    </div>
+    
+    <div id="depositView" class="wallet-action-view hidden">
+      <div style="margin-bottom: 15px; text-align: left;">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174861.png" alt="PayPal" width="30" style="vertical-align: middle; margin-right: 10px;">
+        <label><strong>PayPal:</strong></label>
+        <input type="email" placeholder="you@example.com" style="width: 100%; padding: 8px; border-radius: 8px; border: none; margin-top: 5px;" />
+      </div>
+      <div style="margin-bottom: 15px; text-align: left;">
+        <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="Bank" width="30" style="vertical-align: middle; margin-right: 10px;">
+        <label><strong>Bank Card:</strong></label>
+        <input type="text" placeholder="1234 5678 9012 3456" style="width: 100%; padding: 8px; border-radius: 8px; border: none; margin-top: 5px;" />
+      </div>
+      <div style="margin-bottom: 20px; text-align: left;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Pay" width="30" style="vertical-align: middle; margin-right: 10px;">
+        <label><strong>Apple Pay:</strong></label>
+        <input type="text" placeholder="Apple Pay ID or Phone" style="width: 100%; padding: 8px; border-radius: 8px; border: none; margin-top: 5px;" />
+      </div>
+      <button onclick="submitDeposit()" style="padding: 10px 20px; border: none; border-radius: 20px; background: #5f2e91; color: white; font-weight: bold; cursor: pointer;">Deposit</button>
+      <p style="margin-top: 15px; font-size: 0.85em; color: #aaa;">If you have any issues with Deposit, please <a href="#" onclick="openLiveSupport()" style="color: #c77dff;">contact live support</a>.</p>
+      <button onclick="backToMain()" style="margin-top: 10px; padding: 6px 14px; border: none; border-radius: 14px; background: #412c65; color: white; cursor: pointer;">Back</button>
+    </div>
+    
+    <div id="transferView" class="wallet-action-view hidden">
+      <div style="margin-bottom: 15px; text-align: left;">
+        <label><strong>Enter MZ Points:</strong></label>
+        <input type="number" id="mzInput" placeholder="e.g. 1000" oninput="updateConvertedAmount()" style="width: 100%; padding: 8px; border-radius: 8px; border: none; margin-top: 5px;" />
+      </div>
+      <div style="margin-bottom: 20px; text-align: left;">
+        <label><strong>Converted Amount (USD):</strong></label>
+        <input type="text" id="convertedAmount" value="$0.00" disabled style="width: 100%; padding: 8px; border-radius: 8px; border: none; background: #1c1432; color: #fff; margin-top: 5px;" />
+      </div>
+      <button onclick="submitTransfer()" style="padding: 10px 20px; border: none; border-radius: 20px; background: #5f2e91; color: white; font-weight: bold; cursor: pointer;">Transfer</button>
+      <button onclick="backToMain()" style="margin-top: 10px; padding: 6px 14px; border: none; border-radius: 14px; background: #412c65; color: white; cursor: pointer;">Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- ⚙️ Settings Popup -->
+<div class="profile-popup-box" id="settingsPopupBox">
+  <button class="close-profile-box" onclick="closeSettingsBox()">×</button>
+  <h2>⚙️ Settings</h2>
+
+  <!-- ACCOUNT SECTION -->
+  <div>
+    <h3 style="cursor:pointer;" onclick="toggleSection('accountSection')">👤 Account</h3>
+    <div id="accountSection" style="display:none;">
+      <label><strong>Name:</strong></label>
+      <input type="text" id="settingsName" value="John Doe" style="width:100%; margin-bottom:10px; padding:8px; border-radius:6px; border:none; background:#1c1432; color:white;" />
+      
+      <label><strong>Email:</strong></label>
+      <input type="email" id="settingsEmail" value="john@example.com" style="width:100%; margin-bottom:10px; padding:8px; border-radius:6px; border:none; background:#1c1432; color:white;" />
+      
+      <label><strong>Reset Password:</strong></label>
+      <input type="password" id="settingsPassword" placeholder="New password..." style="width:100%; margin-bottom:10px; padding:8px; border-radius:6px; border:none; background:#1c1432; color:white;" />
+      
+      <button onclick="submitSettings()" style="padding:8px 16px; border:none; border-radius:20px; background:#5f2e91; color:white; font-weight:bold; cursor:pointer;">Submit</button>
+      <hr style="margin:20px 0; border-color:#5f2e91;">
+    </div>
+  </div>
+
+  <!-- SECURITY SECTION -->
+  <div>
+    <h3 style="cursor:pointer;" onclick="toggleSection('securitySection')">🔐 Security</h3>
+    <div id="securitySection" style="display:none;">
+      <p><strong>Track and manage your account sessions</strong></p>
+      <p>To keep your account secure, enable two factor authentication by following the process below:</p>
+      
+      <label><strong>1- iphone 13 pro</strong></label>
+      <input type="text" id="twoFactorCode" placeholder="Enter device name..." style="width:100%; margin-bottom:10px; padding:8px; border-radius:6px; border:none; background:#1c1432; color:white;" />
+      
+      <button onclick="submit2FA()" style="padding:8px 16px; border:none; border-radius:20px; background:#5f2e91; color:white; font-weight:bold; cursor:pointer;">Sign out from all</button>
+      <hr style="margin:20px 0; border-color:#5f2e91;">
+    </div>
+  </div>
+
+  <!-- OFFERS SECTION -->
+  <div>
+    <h3 style="cursor:pointer;" onclick="toggleSection('offersSection')">🎁 Offers</h3>
+    <div id="offersSection" style="display:none;">
+      <p><strong>Claim Bonus Drop</strong></p>
+      <p>Find bonus drop codes on our social media's</p>
+
+      <input type="text" id="offerCode" placeholder="Enter bonus code..." style="width:100%; margin-bottom:10px; padding:8px; border-radius:6px; border:none; background:#1c1432; color:white;" />
+      
+      <button onclick="submitBonus()" style="padding:8px 16px; border:none; border-radius:20px; background:#5f2e91; color:white; font-weight:bold; cursor:pointer;">Submit</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- 🗑️ Delete Account Confirmation Box -->
+<div class="delete-account-box" id="deleteAccountBox">
+  <button class="close-delete-box" onclick="closeDeleteBox()">×</button>
+  <h2>⚠️ Are You Sure?</h2>
+  <p>You are about to delete your account. This action is permanent and will remove all your data.</p>
+  <div class="delete-actions">
+    <button class="btn-delete" onclick="handleDeleteAccount()">🗑️ Delete</button>
+    <button class="btn-cancel" onclick="closeDeleteBox()">Cancel</button>
+  </div>
+</div>
+ <div style="max-width: 600px; margin: auto; padding: 20px; font-family: 'Outfit', sans-serif;">
+
+  
+<!-- Live Bid — Phone View -->
+<div style="
+  width: 100%;
+  background: #1c1c1c;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+">
+  <div style="width: 100%; max-width: 2000px;">
+    <h3 style="
+      color: #ffffff;
+      font-size: 22px;
+      margin-bottom: 10px;
+      text-align: center;
+      font-weight: normal;
+    ">
+      📱 Live View: iPhone 13 Pro
+    </h3>
+
+    <div style="
+      position: relative;
+      width: 100%;
+      padding-top: 45%;
+      background: #000;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
+      pointer-events: none; /* Disable clicks on container */
+    ">
+      <iframe
+        src="https://player.vimeo.com/video/608648789?autoplay=1&muted=1&loop=1&background=1&playsinline=1"
+        allow="autoplay; fullscreen"
+        style="
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          border: none;
+          pointer-events: none; /* Disable clicks on video */
+        ">
+      </iframe>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+<div style="display: flex; gap: 15px; max-width: 100%; justify-content: center;">
+<!-- Current Bid Box (Centered Text) -->
+<div style="background:#1c1c1c; border-radius:8px; width: 130px; height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+  <h4 style="color:#ffa500; font-size:14px; margin:0 0 4px;">🪙 Ticket</h4>
+  <strong style="color:#00ff99; font-size:16px;">$1</strong>
+</div>
+
+
+  <!-- Your Bid Box (Right) -->
+  <div style="background:#1c1c1c; border-radius:8px; padding:8px 12px; width: 220px;">
+    <h4 style="color:#00ffcc; font-size:14px; margin:0 0 4px;">💸 Buy Ticket</h4>
+    <div style="display:flex; gap:px; margin-top:3px;">
+      <input type="number" placeholder="Ticket"
+        style="flex:5; padding:1px; font-size:14px; border:none; border-radius:10px; background:#2a2a2a; color:white;" />
+      <button style="padding:6px 10px; background:#00cc66; border:none; color:white; border-radius:6px; font-size:13px; cursor:pointer;">
+        Buy
+      </button>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- Last Bids List -->
+<div style="max-width: 1000px; margin: 30px auto; padding: 0 15px;">
+  <div style="overflow-x: auto; border-radius: 10px;">
+    <table style="width: 100%; min-width: 600px; border-collapse: collapse; background: #241e2b; color: white;">
+      <thead>
+        <tr style="background: #312a3a; text-align: left;">
+          <th style="padding: 12px;">🛒 Product</th>
+          <th style="padding: 12px;">👤 User</th>
+          <th style="padding: 12px;">🕒 Time</th>
+          <th style="padding: 12px;">💰 Ticket</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-top: 1px solid #333;">
+          <td style="padding: 10px;">iPhone 13 Pro Max</td>
+          <td style="padding: 10px;">Ali</td>
+          <td style="padding: 10px;">2:30 PM</td>
+          <td style="padding: 10px; color: #00ff99;">4</td>
+        </tr>
+        <tr style="border-top: 1px solid #333;">
+          <td style="padding: 10px;">Samsung S22</td>
+          <td style="padding: 10px;">Sara</td>
+          <td style="padding: 10px;">2:29 PM</td>
+          <td style="padding: 10px; color: #00ff99;">1</td>
+        </tr>
+        <tr style="border-top: 1px solid #333;">
+          <td style="padding: 10px;">iPhone 14</td>
+          <td style="padding: 10px;">Omar</td>
+          <td style="padding: 10px;">2:28 PM</td>
+          <td style="padding: 10px; color: #00ff99;">300</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+ <!-- Hidden audio -->
+  <audio id="bg-music" loop>
+    <source src="music/lofi-chill-374877.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <footer>
+    <p class="en">&copy; 2025 TreazoX. All rights reserved.</p>
+    <p class="ar hidden">&copy; 2025 تريزو اكس. جميع الحقوق محفوظة.</p>
+  </footer>
+
+  <script>
+    function setLanguage(lang) {
+      document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      document.querySelectorAll('.en').forEach(el => el.classList.toggle('hidden', lang !== 'en'));
+      document.querySelectorAll('.ar').forEach(el => el.classList.toggle('hidden', lang !== 'ar'));
+    }
+
+    function handleChance() {
+      alert("Redirect to $1 chance purchase or trigger your logic here.");
+    }
+
+    function showCircle(type) {
+      const bidsCircle = document.getElementById('bids-circle');
+      const gamesCircle = document.getElementById('games-circle');
+      if (type === 'bids') {
+        bidsCircle.style.display = 'flex';
+        gamesCircle.style.display = 'none';
+      } else if (type === 'games') {
+        bidsCircle.style.display = 'none';
+        gamesCircle.style.display = 'flex';
+      }
+    }
+
+    function toggleProfileMenu() {
+      const menu = document.getElementById('profileMenu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Show bids by default on page load
+    showCircle('bids');
+  
+  function handleChance() {
+    document.getElementById('ticketBox').style.display = 'block';
+  }
+
+  function closeTicketBox() {
+    document.getElementById('ticketBox').style.display = 'none';
+  }
+
+  function updateCountdown() {
+    const countdownEl = document.getElementById('countdown');
+    const endTime = new Date(Date.now() + 48 * 60 * 60 * 1000); // 48 hours
+    function update() {
+      const now = new Date();
+      const diff = endTime - now;
+      const h = Math.floor(diff / 1000 / 60 / 60).toString().padStart(2, '0');
+      const m = Math.floor(diff / 1000 / 60 % 60).toString().padStart(2, '0');
+      const s = Math.floor(diff / 1000 % 60).toString().padStart(2, '0');
+      countdownEl.textContent = `${h}:${m}:${s}`;
+      if (diff > 0) requestAnimationFrame(update);
+    }
+    update();
+  }
+
+  updateCountdown();
+
+  function toggleProfileMenu() {
+    const menu = document.getElementById('profileMenu');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  }
+
+ function openLiveSupport() {
+  document.getElementById('liveSupportBox').style.display = 'block';
+}
+
+function closeLiveSupport() {
+  document.getElementById('liveSupportBox').style.display = 'none';
+}
+
+  function sendMessage(event) {
+    if (event.key === 'Enter') {
+      const input = document.getElementById('chatInput');
+      const message = input.value.trim();
+      if (message) {
+        const chatBox = document.getElementById('chatMessages');
+        const p = document.createElement('p');
+        p.innerHTML = `<strong>You:</strong> ${message}`;
+        chatBox.appendChild(p);
+        input.value = '';
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    }
+  }
+
+  // Attach openLiveSupport to the menu item
+  document.addEventListener('DOMContentLoaded', () => {
+    const liveSupportItem = [...document.querySelectorAll('#profileMenu div')].find(d => d.textContent.includes('Live Support'));
+    if (liveSupportItem) {
+      liveSupportItem.onclick = openLiveSupport;
+    }
+  });
+// Bird Game logic
+function openBirdGame() {
+  document.getElementById('birdGameBox').style.display = 'block';
+}
+
+function closeBirdGame() {
+  document.getElementById('birdGameBox').style.display = 'none';
+}
+
+// Move bird on spacebar
+let birdLeft = 20;
+
+document.addEventListener('keydown', function(e) {
+  if (document.getElementById('birdGameBox').style.display === 'block' && e.code === 'Space') {
+    e.preventDefault();
+    birdLeft += 20;
+    const bird = document.getElementById('bird');
+    bird.style.left = birdLeft + 'px';
+  }
+});
+
+// When Bird Game circle is clicked
+document.addEventListener('DOMContentLoaded', () => {
+  const birdItem = [...document.querySelectorAll('.circle-item span')].find(span => span.textContent === 'Bird Game');
+  if (birdItem) {
+    birdItem.parentElement.onclick = openBirdGame;
+  }
+});
+
+function openProfileBox() {
+  document.getElementById('profilePopupBox').style.display = 'block';
+}
+function closeProfileBox() {
+  document.getElementById('profilePopupBox').style.display = 'none';
+}
+function openWithdrawBox() {
+  document.getElementById('withdrawPopupBox').style.display = 'block';
+}
+
+function closeWithdrawBox() {
+  document.getElementById('withdrawPopupBox').style.display = 'none';
+}
+
+function submitWithdraw() {
+  const amount = document.getElementById('withdrawAmount').value;
+  const email = document.getElementById('paypalEmail').value;
+
+  if (!amount || !email) {
+    alert('Please enter both amount and PayPal email.');
+    return;
+  }
+
+  // You can replace this with real request to backend
+  alert(`Requesting withdrawal of $${amount} to ${email}`);
+  closeWithdrawBox();
+}
+function openDepositBox() {
+  document.getElementById('depositPopupBox').style.display = 'block';
+}
+
+function closeDepositBox() {
+  document.getElementById('depositPopupBox').style.display = 'none';
+}
+
+function submitDeposit() {
+  alert('Deposit request submitted! (Add real logic here)');
+  closeDepositBox();
+}
+function openTransferBox() {
+  document.getElementById('transferPopupBox').style.display = 'block';
+}
+
+function closeTransferBox() {
+  document.getElementById('transferPopupBox').style.display = 'none';
+}
+
+function updateConvertedAmount() {
+  const mz = parseInt(document.getElementById('mzInput').value) || 0;
+  const usd = (mz * 0.001).toFixed(2); // 100 MZ = $0.10 → 1 MZ = $0.001
+  document.getElementById('convertedAmount').value = `$${usd}`;
+}
+
+function submitTransfer() {
+  const mz = parseInt(document.getElementById('mzInput').value);
+  if (!mz || mz <= 0) {
+    alert('Please enter a valid amount of MZ points.');
+    return;
+  }
+  alert(`You transferred ${mz} MZ!`);
+  closeTransferBox();
+}
+function openSettingsBox() {
+  document.getElementById('settingsPopupBox').style.display = 'block';
+}
+
+function closeSettingsBox() {
+  document.getElementById('settingsPopupBox').style.display = 'none';
+}
+
+function toggleSection(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function submitSettings() {
+  const name = document.getElementById('settingsName').value;
+  const email = document.getElementById('settingsEmail').value;
+  const password = document.getElementById('settingsPassword').value;
+  alert(`Saved: ${name}, ${email}${password ? ', password updated' : ''}`);
+}
+
+function submit2FA() {
+  const code = document.getElementById('twoFactorCode').value;
+  if (!code) return alert("Enter a promo code.");
+  alert(`2FA enabled with code: ${code}`);
+}
+
+function submitBonus() {
+  const code = document.getElementById('offerCode').value;
+  if (!code) return alert("Enter bonus code.");
+  alert(`Code ${code} submitted! 🎉`);
+}
+function openDeleteBox() {
+  document.getElementById('deleteAccountBox').style.display = 'block';
+}
+
+function closeDeleteBox() {
+  document.getElementById('deleteAccountBox').style.display = 'none';
+}
+
+// This will close the delete box and open live support
+function handleDeleteAccount() {
+  closeDeleteBox();
+  openLiveSupport();
+  setTimeout(() => {
+    alert("Please contact support to proceed with account deletion.");
+  }, 300); // show alert after box opens
+}
+
+// Modify live support to always close delete box when opened
+function openLiveSupport() {
+  closeDeleteBox(); // Ensure delete popup is hidden
+  document.getElementById('liveSupportBox').style.display = 'block';
+}
+function toggleWalletOptions() {
+  const box = document.getElementById("walletOptions");
+  box.classList.toggle("hidden");
+}
+document.addEventListener('click', function (e) {
+  const walletBtn = document.querySelector('.wallet-toggle');
+  const walletBox = document.getElementById('walletOptions');
+  if (!walletBtn.contains(e.target) && !walletBox.contains(e.target)) {
+    walletBox.classList.add('hidden');
+  }
+});
+function openWalletModal() {
+    document.getElementById("walletModal").classList.remove("hidden");
+    closeAllDetailBoxes();
+  }
+  function closeWalletModal() {
+    document.getElementById("walletModal").classList.add("hidden");
+    closeAllDetailBoxes();
+  }
+  function closeAllDetailBoxes() {
+    document.getElementById("withdrawPopupBox").classList.add("hidden");
+    document.getElementById("depositPopupBox").classList.add("hidden");
+    document.getElementById("transferPopupBox").classList.add("hidden");
+  }
+  function openWithdrawBox() {
+    closeWalletModal();
+    closeAllDetailBoxes();
+    document.getElementById("withdrawPopupBox").classList.remove("hidden");
+  }
+  function closeWithdrawBox() {
+    document.getElementById("withdrawPopupBox").classList.add("hidden");
+    openWalletModal();
+  }
+  function openDepositBox() {
+    closeWalletModal();
+    closeAllDetailBoxes();
+    document.getElementById("depositPopupBox").classList.remove("hidden");
+  }
+  function closeDepositBox() {
+    document.getElementById("depositPopupBox").classList.add("hidden");
+    openWalletModal();
+  }
+  function openTransferBox() {
+    closeWalletModal();
+    closeAllDetailBoxes();
+    document.getElementById("transferPopupBox").classList.remove("hidden");
+  }
+  function closeTransferBox() {
+    document.getElementById("transferPopupBox").classList.add("hidden");
+    openWalletModal();
+  }
+  // Dummy submit handlers
+  function submitWithdraw() {
+    alert("Withdraw submitted!");
+  }
+  function submitDeposit() {
+    alert("Deposit submitted!");
+  }
+  function submitTransfer() {
+    alert("Transfer submitted!");
+  }
+  function updateConvertedAmount() {
+    const mz = parseFloat(document.getElementById("mzInput").value) || 0;
+    const usd = (mz * 0.01).toFixed(2);
+    document.getElementById("convertedAmount").value = "$" + usd;
+  }
+  function openLiveSupport() {
+    alert("Open live support chat");
+  }
+function openWalletModal() {
+  document.getElementById("walletModal").classList.remove("hidden");
+}
+function closeWalletModal() {
+  document.getElementById("walletModal").classList.add("hidden");
+}
+function openLiveSupport() {
+    document.getElementById('liveSupportBox').style.display = 'block';
+    document.getElementById('chatStep1').style.display = 'block';
+    document.getElementById('chatStep2').style.display = 'none';
+    document.getElementById('chatMessages').innerHTML = '';
+  }
+
+  function closeLiveSupport() {
+    document.getElementById('liveSupportBox').style.display = 'none';
+  }
+
+  function startChat(issue) {
+    document.getElementById('chatStep1').style.display = 'none';
+    document.getElementById('chatStep2').style.display = 'block';
+    addMessage("🧠 Bot", "You selected: <strong>" + issue + "</strong><br>An agent will join shortly. Please explain your issue.");
+  }
+
+  function addMessage(sender, message) {
+    const msgBox = document.getElementById('chatMessages');
+    const newMsg = document.createElement('div');
+    newMsg.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    newMsg.style.marginBottom = "8px";
+    msgBox.appendChild(newMsg);
+    msgBox.scrollTop = msgBox.scrollHeight;
+  }
+
+  function sendUserMessage() {
+    const msgInput = document.getElementById('userMessage');
+    const message = msgInput.value.trim();
+    if (message !== '') {
+      addMessage("🧍 You", message);
+      msgInput.value = '';
+    }
+  }
+
+ const bgMusic = document.getElementById("bg-music");
+    bgMusic.volume = 0.1;
+
+    // Try autoplay
+    window.addEventListener("load", () => {
+      bgMusic.play().catch(() => {
+        // Fallback: Wait for any user interaction
+        const startOnClick = () => {
+          bgMusic.play();
+          document.removeEventListener("click", startOnClick);
+        };
+        document.addEventListener("click", startOnClick);
+      });
+    });
+  </script>
+</body>
+</html>
