@@ -2,57 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+ <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TreazoX - Play & Win</title>
-  <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Website</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive PC + Phone Site</title>
   <style>
-    body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
-  }
-
-  .circle-item {
-    width: 150px;
-    margin: 20px auto;
-    text-align: center;
-  }
-
-  .circle-item img {
-    width: 100%;
-    border-radius: 20px;
-  }
-
-  /* 🔄 Phone layout */
-  @media (max-width: 768px) {
+body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
     .circle-item {
-      width: 100px;
+      flex: 1 1 150px;
+      max-width: 150px;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: black;
     }
-
+    .circle-item img {
+      width: 100%;
+      border-radius: 15px;
+    }
     .circle-item span {
-      font-size: 14px;
-    }
-  }
-
-  /* 💻 PC layout */
-  @media (min-width: 769px) {
-    .circle-item {
-      width: 150px;
-    }
-
-    .circle-item span {
+      display: block;
+      margin-top: 10px;
       font-size: 18px;
     }
-  }
+    @media (max-width: 768px) {
+      .circle-item {
+        flex: 1 1 100px;
+        max-width: 100px;
+      }
+      .circle-item span {
+        font-size: 14px;
+      }
+    }
+
+    
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
@@ -702,7 +697,17 @@
   </div>
 </div>
 
+<div class="container">
+    <a href="phone.html" class="circle-item">
+      <img src="https://img.icons8.com/?size=160&id=bAvD0rVEuIO8&format=png" alt="Phone" />
+      <span>Phone</span>
+    </a>
 
+    <a href="car.html" class="circle-item">
+      <img src="https://img.icons8.com/?size=160&id=dWnNxYR4bAhz&format=png" alt="Car" />
+      <span>Car</span>
+    </a>
+  </div>
 
 
     <div class="header-right">
