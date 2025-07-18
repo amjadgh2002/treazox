@@ -1368,82 +1368,57 @@ function openLiveSupport() {
 }
 
   // Initial balances
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8" /><title>Wallet Transfer</title></head>
+<body>
+
+<div>
+  <p>Main Wallet: <span id="mzBalance">1564</span> MZ</p>
+  <p>Money Wallet: $<span id="usdBalance">12.49</span></p>
+</div>
+
+<div id="transferView">
+  <label>Enter MZ Points:</label>
+  <input id="mzInput" type="number" placeholder="e.g. 100" oninput="updateConvertedAmount()" />
+  <br />
+  <label>Converted USD:</label>
+  <input id="convertedAmount" type="text" disabled value="$0.00" />
+  <br />
+  <button onclick="submitTransfer()">Transfer</button>
+</div>
+
   let mzPoints = 1564;
   let userBalanceUSD = 12.49;
 
-  function openWalletModal() {
-    document.getElementById('walletModal').classList.remove('hidden');
-    updateWalletInfo();
-  }
-
-  function closeWalletModal() {
-    document.getElementById('walletModal').classList.add('hidden');
-  }
-
-  function showAction(action) {
-    document.getElementById('walletMainView').classList.add('hidden');
-    document.getElementById('transferView').classList.add('hidden');
-    document.getElementById('withdrawView')?.classList.add('hidden');
-    document.getElementById('depositView')?.classList.add('hidden');
-
-    if (action === 'transfer') {
-      document.getElementById('transferView').classList.remove('hidden');
-    } else if (action === 'withdraw') {
-      document.getElementById('withdrawView')?.classList.remove('hidden');
-    } else if (action === 'deposit') {
-      document.getElementById('depositView')?.classList.remove('hidden');
-    }
-  }
-
-  function backToMain() {
-    document.getElementById('walletMainView').classList.remove('hidden');
-    document.getElementById('transferView').classList.add('hidden');
-    document.getElementById('withdrawView')?.classList.add('hidden');
-    document.getElementById('depositView')?.classList.add('hidden');
-  }
-
   function updateConvertedAmount() {
     const mzInput = parseInt(document.getElementById('mzInput').value) || 0;
-    const usd = mzInput / 100; // 100 MZ = $1
+    const usd = mzInput / 100;
     document.getElementById('convertedAmount').value = `$${usd.toFixed(2)}`;
   }
 
   function updateWalletInfo() {
-    // Modal display
-    document.getElementById('mzBalance').innerText = `${mzPoints} MZ`;
-    document.getElementById('usdBalance').innerText = `$${userBalanceUSD.toFixed(2)}`;
-
-    // Header display
-    const headerMz = document.getElementById('headerMz');
-    const headerUsd = document.getElementById('headerUsd');
-    if (headerMz && headerUsd) {
-      headerMz.value = mzPoints;
-      headerUsd.value = userBalanceUSD.toFixed(2);
-    }
+    document.getElementById('mzBalance').innerText = mzPoints;
+    document.getElementById('usdBalance').innerText = userBalanceUSD.toFixed(2);
   }
 
   function submitTransfer() {
     const amount = parseInt(document.getElementById('mzInput').value);
-
     if (isNaN(amount) || amount <= 0) {
       alert("Please enter a valid amount.");
       return;
     }
-
     if (amount > mzPoints) {
       alert("You don't have enough MZ points.");
       return;
     }
-
-    const usdAmount = amount / 100; // Conversion logic
     mzPoints -= amount;
-    userBalanceUSD += usdAmount;
+    userBalanceUSD += amount / 100;
 
     document.getElementById('mzInput').value = '';
     updateConvertedAmount();
     updateWalletInfo();
-    alert(`Transferred ${amount} MZ → $${usdAmount.toFixed(2)}`);
-    backToMain();
+    alert(`Transferred ${amount} MZ → $${(amount/100).toFixed(2)}`);
   }
 
   // Initialize wallet display on load
