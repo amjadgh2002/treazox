@@ -1444,34 +1444,48 @@ function openLiveSupport() {
     alert(`Transferred ${amount} MZ → $${usdAmount.toFixed(2)}`);
     backToMain();
   }
-    // Example conversion rate: 1 MZ point = $0.01
-  const conversionRate = 0.01;
+  // Conversion rate
+  const conversionRate = 0.01;  // 1 MZ = 0.01 USD
 
   function updateConvertedAmount() {
-    const mzInput = document.getElementById('mzInput').value;
-    const converted = mzInput * conversionRate;
-    document.getElementById('convertedAmount').value = `$${converted.toFixed(2)}`;
+    const mzInput = Number(document.getElementById('mzInput').value);
+    if (mzInput > 0) {
+      const converted = mzInput * conversionRate;
+      document.getElementById('convertedAmount').value = `$${converted.toFixed(2)}`;
+    } else {
+      document.getElementById('convertedAmount').value = '$0.00';
+    }
   }
 
   function submitTransfer() {
-    const mzPoints = document.getElementById('mzInput').value;
-    if (!mzPoints || mzPoints <= 0) {
-      alert('Please enter a valid number of MZ Points to transfer.');
+    const mzInput = Number(document.getElementById('mzInput').value);
+
+    if (!mzInput || mzInput <= 0) {
+      alert('Please enter a valid number.');
       return;
     }
 
-    // Example: Show an alert (replace with your actual transfer logic)
-    alert(`You are transferring ${mzPoints} MZ Points.`);
+    if (mzInput > mainWallet) {
+      alert('Insufficient MZ points in your main wallet!');
+      return;
+    }
 
-    // After successful transfer, you can reset inputs or hide the transfer view
+    // Subtract from main wallet
+    mainWallet -= mzInput;
+
+    // Add to money wallet (converted USD)
+    const convertedUSD = mzInput * conversionRate;
+    moneyWallet += convertedUSD;
+
+    // Update balances on page
+    document.getElementById('mainWalletBalance').textContent = mainWallet;
+    document.getElementById('moneyWalletBalance').textContent = moneyWallet.toFixed(2);
+
+    // Reset input and converted amount
     document.getElementById('mzInput').value = '';
     document.getElementById('convertedAmount').value = '$0.00';
-  }
 
-  function backToMain() {
-    // Example: Hide transfer view, show main view (you can adjust this)
-    document.getElementById('transferView').classList.add('hidden');
-    // Show main view code here (if you have)
+    alert(`Successfully transferred ${mzInput} MZ points to $${convertedUSD.toFixed(2)}!`);
   }
 
   // Initialize wallet display on load
