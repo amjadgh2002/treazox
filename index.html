@@ -770,14 +770,15 @@
       <button onclick="backToMain()" style="margin-top: 10px; padding: 6px 14px; border: none; border-radius: 14px; background: #412c65; color: white; cursor: pointer;">Back</button>
     </div>
     
+    <!-- Transfer View -->
     <div id="transferView" class="wallet-action-view hidden">
-      <div style="margin-bottom: 15px; text-align: left;">
+      <div style="margin-bottom: 15px;">
         <label><strong>Enter MZ Points:</strong></label>
-        <input type="number" id="mzInput" placeholder="e.g. 1000" oninput="updateConvertedAmount()" style="width: 100%; padding: 8px; border-radius: 8px; border: none; margin-top: 5px;" />
+        <input type="number" id="mzInput" placeholder="e.g. 100" oninput="updateConvertedAmount()" style="width: 100%; padding: 8px;" />
       </div>
-      <div style="margin-bottom: 20px; text-align: left;">
+      <div style="margin-bottom: 15px;">
         <label><strong>Converted Amount (USD):</strong></label>
-        <input type="text" id="convertedAmount" value="$0.00" disabled style="width: 100%; padding: 8px; border-radius: 8px; border: none; background: #1c1432; color: #fff; margin-top: 5px;" />
+        <input type="text" id="convertedAmount" value="$0.00" disabled style="width: 100%; padding: 8px;" />
       </div>
       <button onclick="submitTransfer()" style="padding: 10px 20px; border: none; border-radius: 20px; background: #5f2e91; color: white; font-weight: bold; cursor: pointer;">Transfer</button>
       <button onclick="backToMain()" style="margin-top: 10px; padding: 6px 14px; border: none; border-radius: 14px; background: #412c65; color: white; cursor: pointer;">Back</button>
