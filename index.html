@@ -945,18 +945,46 @@
     </div>
 
     <!-- Transfer View -->
-    <div id="transferView" class="wallet-action-view hidden">
-      <div style="margin-bottom: 15px;">
-        <label><strong>Enter MZ Points:</strong></label>
-        <input type="number" id="mzInput" placeholder="e.g. 100" oninput="updateConvertedAmount()" style="width: 100%; padding: 8px;" />
-      </div>
-      <div style="margin-bottom: 15px;">
-        <label><strong>Converted Amount (USD):</strong></label>
-        <input type="text" id="convertedAmount" value="$0.00" disabled style="width: 100%; padding: 8px;" />
-      </div>
-      <button onclick="submitTransfer()" style="padding: 10px 20px; border: none; border-radius: 20px; background: #5f2e91; color: white; font-weight: bold; cursor: pointer;">Transfer</button>
-      <button onclick="backToMain()" style="margin-top: 10px; padding: 6px 14px; border: none; border-radius: 14px; background: #412c65; color: white; cursor: pointer;">Back</button>
-    </div>
+<div id="transferView" class="wallet-action-view hidden" style="max-width: 400px; margin: auto; background: #1e1e2f; padding: 20px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); color: white;">
+
+  <div style="margin-bottom: 20px;">
+    <label for="mzInput" style="display: block; font-weight: bold; margin-bottom: 6px;">Enter MZ Points:</label>
+    <input
+      type="number"
+      id="mzInput"
+      placeholder="e.g. 100"
+      oninput="updateConvertedAmount()"
+      style="width: 100%; padding: 10px; border: none; border-radius: 12px; font-size: 16px;"
+    />
+  </div>
+
+  <div style="margin-bottom: 20px;">
+    <label for="convertedAmount" style="display: block; font-weight: bold; margin-bottom: 6px;">Converted Amount (USD):</label>
+    <input
+      type="text"
+      id="convertedAmount"
+      value="$0.00"
+      disabled
+      style="width: 100%; padding: 10px; border: none; border-radius: 12px; font-size: 16px; background-color: #2a2a40; color: #ccc;"
+    />
+  </div>
+
+  <button
+    onclick="submitTransfer()"
+    style="width: 100%; padding: 12px; border: none; border-radius: 25px; background: #7a3eea; color: white; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.3s;"
+    onmouseover="this.style.background='#652fd6'"
+    onmouseout="this.style.background='#7a3eea'"
+  >Transfer</button>
+
+  <button
+    onclick="backToMain()"
+    style="margin-top: 12px; width: 100%; padding: 10px; border: none; border-radius: 20px; background: #3d2b59; color: white; font-size: 14px; cursor: pointer; transition: background 0.3s;"
+    onmouseover="this.style.background='#2d1f42'"
+    onmouseout="this.style.background='#3d2b59'"
+  >Back</button>
+
+</div>
+
 
     <!-- You can also add your withdrawView and depositView here if needed -->
   </div>
@@ -1367,10 +1395,12 @@ function openLiveSupport() {
   document.getElementById('headerUsd').value = userBalanceUSD.toFixed(2);
 }
 
-  // Initial balances
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8" /><title>Wallet Transfer</title></head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Wallet Transfer</title>
+</head>
 <body>
 
 <div>
@@ -1388,6 +1418,8 @@ function openLiveSupport() {
   <button onclick="submitTransfer()">Transfer</button>
 </div>
 
+<!-- Your JavaScript must be inside a <script> tag -->
+<script>
   let mzPoints = 1564;
   let userBalanceUSD = 12.49;
 
@@ -1418,8 +1450,11 @@ function openLiveSupport() {
     document.getElementById('mzInput').value = '';
     updateConvertedAmount();
     updateWalletInfo();
-    alert(`Transferred ${amount} MZ → $${(amount/100).toFixed(2)}`);
+    alert(`Transferred ${amount} MZ → $${(amount / 100).toFixed(2)}`);
   }
+
+  // Initialize balances on page load
+  window.onload = updateWalletInfo;
 
   // Initialize wallet display on load
   window.addEventListener('DOMContentLoaded', updateWalletInfo);
