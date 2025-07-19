@@ -943,51 +943,6 @@
         <div onclick="showAction('transfer')">🔁 Transfer MZ</div>
       </div>
     </div>
-
-    <!-- Transfer View -->
-<div id="transferView" class="wallet-action-view hidden" style="max-width: 400px; margin: auto; background: #1e1e2f; padding: 20px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); color: white;">
-
-  <div style="margin-bottom: 20px;">
-    <label for="mzInput" style="display: block; font-weight: bold; margin-bottom: 6px;">Enter MZ Points:</label>
-    <input
-      type="number"
-      id="mzInput"
-      placeholder="e.g. 100"
-      oninput="updateConvertedAmount()"
-      style="width: 100%; padding: 10px; border: none; border-radius: 12px; font-size: 16px;"
-    />
-  </div>
-
-  <div style="margin-bottom: 20px;">
-    <label for="convertedAmount" style="display: block; font-weight: bold; margin-bottom: 6px;">Converted Amount (USD):</label>
-    <input
-      type="text"
-      id="convertedAmount"
-      value="$0.00"
-      disabled
-      style="width: 100%; padding: 10px; border: none; border-radius: 12px; font-size: 16px; background-color: #2a2a40; color: #ccc;"
-    />
-  </div>
-
-  <button
-    onclick="submitTransfer()"
-    style="width: 100%; padding: 12px; border: none; border-radius: 25px; background: #7a3eea; color: white; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.3s;"
-    onmouseover="this.style.background='#652fd6'"
-    onmouseout="this.style.background='#7a3eea'"
-  >Transfer</button>
-
-  <button
-    onclick="backToMain()"
-    style="margin-top: 12px; width: 100%; padding: 10px; border: none; border-radius: 20px; background: #3d2b59; color: white; font-size: 14px; cursor: pointer; transition: background 0.3s;"
-    onmouseover="this.style.background='#2d1f42'"
-    onmouseout="this.style.background='#3d2b59'"
-  >Back</button>
-
-</div>
-
-
-    <!-- You can also add your withdrawView and depositView here if needed -->
-  </div>
 </div>
 
 
@@ -1155,29 +1110,7 @@ function submitDeposit() {
   alert('Deposit request submitted! (Add real logic here)');
   closeDepositBox();
 }
-function openTransferBox() {
-  document.getElementById('transferPopupBox').style.display = 'block';
-}
 
-function closeTransferBox() {
-  document.getElementById('transferPopupBox').style.display = 'none';
-}
-
-function updateConvertedAmount() {
-  const mz = parseInt(document.getElementById('mzInput').value) || 0;
-  const usd = (mz * 0.001).toFixed(2); // 10 MZ = $0.10 → 0.1 MZ = $0.001
-  document.getElementById('convertedAmount').value = `$${usd}`;
-}
-
-function submitTransfer() {
-  const mz = parseInt(document.getElementById('mzInput').value);
-  if (!mz || mz <= 0) {
-    alert('Please enter a valid amount of MZ points.');
-    return;
-  }
-  alert(`You transferred ${mz} MZ!`);
-  closeTransferBox();
-}
 function openSettingsBox() {
   document.getElementById('settingsPopupBox').style.display = 'block';
 }
@@ -1290,13 +1223,28 @@ function openWalletModal() {
     alert("Deposit submitted!");
   }
   function submitTransfer() {
-    alert("Transfer submitted!");
+  const points = parseInt(document.getElementById('mzInput').value) || 0;
+
+  if (points <= 0 || points > mzPoints) {
+    return; // تجاهل العملية إذا الرقم غير صالح
   }
-  function updateConvertedAmount() {
-    const mz = parseFloat(document.getElementById("mzInput").value) || 0;
-    const usd = (mz * 0.01).toFixed(2);
-    document.getElementById("convertedAmount").value = "$" + usd;
-  }
+
+  const usd = parseFloat((points * conversionRate).toFixed(2));
+  mzPoints -= points;
+  currentBalance += usd;
+
+  // تحديث كل الواجهات
+  updateWalletDisplay(); 
+  updateWalletInfo();
+
+  // إغلاق المودال
+  closeWalletBox();
+
+  // إعادة تعيين الحقول
+  document.getElementById('mzInput').value = '';
+  document.getElementById('convertedAmount').value = '$0.00';
+}
+
   function openLiveSupport() {
     alert("Open live support chat");
   }
@@ -1385,102 +1333,70 @@ function openLiveSupport() {
   }
   
 
-  function updateWalletInfo() {
-  // Update modal view
+ function updateWalletInfo() {
   document.getElementById('mzBalance').innerText = `${mzPoints} MZ`;
-  document.getElementById('usdBalance').innerText = `$${userBalanceUSD.toFixed(2)}`;
-
-  // Update header
+  document.getElementById('usdBalance').innerText = `$${currentBalance.toFixed(2)}`;
   document.getElementById('headerMz').value = mzPoints;
-  document.getElementById('headerUsd').value = userBalanceUSD.toFixed(2);
+  document.getElementById('headerUsd').value = currentBalance.toFixed(2);
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Wallet Transfer</title>
-</head>
-<body>
+function updateWalletDisplay() {
+  document.getElementById('walletUsd').innerText = `$${currentBalance.toFixed(2)}`;
+  document.getElementById('walletMz').innerText = `| MZ: ${mzPoints}`;
+}
+window.addEventListener('DOMContentLoaded', () => {
+  updateWalletInfo();
+  updateWalletDisplay();
+});
 
-<div>
-  <p>Main Wallet: <span id="mzBalance">1564</span> MZ</p>
-  <p>Money Wallet: $<span id="usdBalance">12.49</span></p>
-</div>
 
-<div id="transferView">
-  <label>Enter MZ Points:</label>
-  <input id="mzInput" type="number" placeholder="e.g. 100" oninput="updateConvertedAmount()" />
-  <br />
-  <label>Converted USD:</label>
-  <input id="convertedAmount" type="text" disabled value="$0.00" />
-  <br />
-  <button onclick="submitTransfer()">Transfer</button>
-</div>
 
-<!-- Your JavaScript must be inside a <script> tag -->
-<script>
-  let mzPoints = 1564;
-  let userBalanceUSD = 12.49;
+// Initial wallet values
+  let currentBalance = 12.49;
+  let mzPoints = 100;
+  const conversionRate = 0.01; // 1 MZ = $0.01
+
+  function openWalletBox() {
+    document.getElementById('walletMainModal').classList.remove('hidden');
+  }
+
+  function closeWalletBox() {
+    document.getElementById('walletMainModal').classList.add('hidden');
+  }
 
   function updateConvertedAmount() {
-    const mzInput = parseInt(document.getElementById('mzInput').value) || 0;
-    const usd = mzInput / 100;
-    document.getElementById('convertedAmount').value = `$${usd.toFixed(2)}`;
+    const points = parseInt(document.getElementById('mzInput').value) || 0;
+    const converted = (points * conversionRate).toFixed(2);
+    document.getElementById('convertedAmount').value = `$${converted}`;
   }
 
-  function updateWalletInfo() {
-    document.getElementById('mzBalance').innerText = mzPoints;
-    document.getElementById('usdBalance').innerText = userBalanceUSD.toFixed(2);
+  function updateWalletDisplay() {
+    document.getElementById('walletUsd').innerText = `$${currentBalance.toFixed(2)}`;
+    document.getElementById('walletMz').innerText = `| MZ: ${mzPoints}`;
   }
 
   function submitTransfer() {
-    const amount = parseInt(document.getElementById('mzInput').value);
-    if (isNaN(amount) || amount <= 0) {
-      alert("Please enter a valid amount.");
-      return;
-    }
-    if (amount > mzPoints) {
-      alert("You don't have enough MZ points.");
-      return;
-    }
-    mzPoints -= amount;
-    userBalanceUSD += amount / 100;
+    const points = parseInt(document.getElementById('mzInput').value) || 0;
 
+    if (points <= 0 || points > mzPoints) {
+      alert("Invalid MZ amount.");
+      return;
+    }
+
+    const usd = parseFloat((points * conversionRate).toFixed(2));
+    mzPoints -= points;
+    currentBalance += usd;
+
+    updateWalletDisplay(); // Update the values in header
+    closeWalletBox(); // Close the modal
+
+    // Reset fields
     document.getElementById('mzInput').value = '';
-    updateConvertedAmount();
-    updateWalletInfo();
-    alert(`Transferred ${amount} MZ → $${(amount / 100).toFixed(2)}`);
+    document.getElementById('convertedAmount').value = '$0.00';
+
+    // Optional: show confirmation
+    alert(`Transferred ${points} MZ to $${usd}`);
   }
-
-  // Initialize balances on page load
-  window.onload = updateWalletInfo;
-
-  function submitTransfer() {
-  const amount = parseInt(document.getElementById('mzInput').value);
-  if (isNaN(amount) || amount <= 0) {
-    alert("Please enter a valid amount.");
-    return;
-  }
-  if (amount > mzPoints) {
-    alert("You don't have enough MZ points.");
-    return;
-  }
-
-  mzPoints -= amount;
-  userBalanceUSD += amount / 100;
-
-  // Update transfer box balances
-  document.getElementById('mzInput').value = '';
-  updateConvertedAmount();
-  updateWalletInfo();
-
-  // ✅ Update header balances too
-  document.getElementById('headerUsd').value = userBalanceUSD.toFixed(2);
-  document.getElementById('headerMz').value = mzPoints;
-
-  alert(`Transferred ${amount} MZ → $${(amount / 100).toFixed(2)}`);
-}
 
 
   // Initialize wallet display on load
@@ -1489,5 +1405,59 @@ function openLiveSupport() {
     window.alert = function() {};
 
   </script>
+
+<script>
+function submitTransfer() {
+  const mzInput = document.getElementById("mzInput");
+  const mzValue = parseInt(mzInput.value);
+  const headerMz = document.getElementById("headerMz");
+  const headerUsd = document.getElementById("headerUsd");
+
+  let currentMz = parseInt(headerMz.value);
+  let currentUsd = parseFloat(headerUsd.value);
+
+  if (isNaN(mzValue) || mzValue <= 0) {
+    return;
+  }
+
+  if (mzValue > currentMz) {
+    mzInput.value = "";
+    return;
+  }
+
+  // conversion: 100 MZ = 1 USD
+  const convertedUsd = mzValue / 100;
+
+  // update values
+  currentMz -= mzValue;
+  currentUsd += convertedUsd;
+
+  headerMz.value = currentMz;
+  headerUsd.value = currentUsd.toFixed(2);
+
+  // reset inputs
+  mzInput.value = "";
+  document.getElementById("convertedAmount").value = "$0.00";
+
+  // close transfer view and go back to main
+  backToMain();
+}
+</script>
+
+
+<script>
+document.getElementById("mzInput").addEventListener("input", function () {
+  const mzValue = parseInt(this.value);
+  const convertedAmount = document.getElementById("convertedAmount");
+
+  if (!isNaN(mzValue) && mzValue > 0) {
+    const usd = (mzValue / 100).toFixed(2);
+    convertedAmount.value = "$" + usd;
+  } else {
+    convertedAmount.value = "$0.00";
+  }
+});
+</script>
+
 </body>
 </html>
