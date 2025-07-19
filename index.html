@@ -1456,6 +1456,33 @@ function openLiveSupport() {
   // Initialize balances on page load
   window.onload = updateWalletInfo;
 
+  function submitTransfer() {
+  const amount = parseInt(document.getElementById('mzInput').value);
+  if (isNaN(amount) || amount <= 0) {
+    alert("Please enter a valid amount.");
+    return;
+  }
+  if (amount > mzPoints) {
+    alert("You don't have enough MZ points.");
+    return;
+  }
+
+  mzPoints -= amount;
+  userBalanceUSD += amount / 100;
+
+  // Update transfer box balances
+  document.getElementById('mzInput').value = '';
+  updateConvertedAmount();
+  updateWalletInfo();
+
+  // ✅ Update header balances too
+  document.getElementById('headerUsd').value = userBalanceUSD.toFixed(2);
+  document.getElementById('headerMz').value = mzPoints;
+
+  alert(`Transferred ${amount} MZ → $${(amount / 100).toFixed(2)}`);
+}
+
+
   // Initialize wallet display on load
   window.addEventListener('DOMContentLoaded', updateWalletInfo);
    // 🔇 Disable all alert() popups
