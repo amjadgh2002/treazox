@@ -666,6 +666,7 @@
 <div class="wallet-button" onclick="openWalletModal()">💼 Wallet</div>
   <div onclick="openSettingsBox()">⚙️ Settings</div>
   <div onclick="openLiveSupport()">📞 Live Support</div>
+  <div onclick="window.location.href='adminlogin.html'">🛡️ Admin Panel</div>
   <div style="color:red;" onclick="openDeleteBox()">🗑️ Delete Account</div>
 </div>
     </div>
@@ -952,6 +953,9 @@
   </footer>
 
   <script>
+    function openLiveSupport() {
+    window.location.href = 'adminlogin.html';
+  }
   function setLanguage(lang) {
       document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
       document.querySelectorAll('.en').forEach(el => el.classList.toggle('hidden', lang !== 'en'));
