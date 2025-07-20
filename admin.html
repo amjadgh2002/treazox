@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TreazoX | Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f4f7;
+      color: #333;
+    }
+    .sidebar {
+      width: 240px;
+      height: 100vh;
+      background-color: #4b0082;
+      color: white;
+      position: fixed;
+      padding: 20px;
+    }
+    .sidebar h2 {
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 12px 0;
+      font-weight: 500;
+      transition: background 0.3s;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .sidebar a:hover {
+      background-color: #6a0dad;
+    }
+    .main {
+      margin-left: 260px;
+      padding: 30px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      max-width: 800px;
+      margin-top: 30px;
+    }
+    .card h3 {
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #6a0dad;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      background-color: #571e8f;
+    }
+    .section {
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+
+
+
+  #usersTable td,
+  #usersTable th {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+  }
+
+  #usersTable {
+    margin: 0 auto; /* لتوسيط الجدول بالكامل داخل الكارد */
+  }
+
+
+
+  #clientsTable,
+  #usersTable {
+    margin: 0 auto;
+    width: 90%;
+    border-collapse: collapse;
+  }
+
+  #clientsTable th,
+  #clientsTable td,
+  #usersTable th,
+  #usersTable td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  #clientsTable th {
+    font-weight: bold;
+  }
+
+
+  </style>
+</head>
+<body>
+    <!-- HEADER -->
+<header style="background-color: #4b0082; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ffffff;">
+  <!-- Left: Logo + Title -->
+  <div style="display: flex; align-items: center;">
+    <div style="background-color: #000000; color: white; padding: 10px 15px; font-weight: bold; border-bottom: 4px solid #ffffff;">
+      TreazoX | Admin Panel
+    </div>
+    <div style="margin-left: 20px; color: #ffffff; font-size: 14px;">
+      <a href="#" style="color: #a7a7a7; text-decoration: none;">Home</a> / <strong style="color: #ffffff;">Dashboard</strong>
+    </div>
+  </div>
+
+  <!-- Right: Icons + Name -->
+  <div style="display: flex; color: #ffffff; align-items: center; gap: 20px; font-size: 14px;">
+    <div style="cursor: pointer;">EN ▼</div>
+    <div style="cursor: pointer;">🔔</div>
+    <div style="cursor: pointer;">🖥️</div>
+    <div style="cursor: pointer;">👤 employee@example.com ▼</div>
+  </div>
+</header>
+
+  <div class="sidebar">
+    <a onclick="showSection('dashboard')">Dashboard</a>
+    <a onclick="showSection('clients')">Clients</a>
+    <a onclick="showSection('users')">Active Users</a>
+    <a onclick="showSection('payment')">Payment</a>
+    <a onclick="showSection('winners')">Winners</a>
+    <a onclick="showSection('bonus')">Bonus</a>
+    <a onclick="showSection('settings')">Settings</a>
+  </div>
+
+  <div class="main">
+
+    <!-- Dashboard Section -->
+    <div id="dashboard" class="section active">
+      <h1>Dashboard</h1>
+      <div class="card">
+        <h3>Search</h3>
+        <label>Profile ID</label>
+        <input type="text" placeholder="Search by Profile ID or Payment ID">
+        <button>Go</button>
+        <br><br>
+        <label>Agent ID</label>
+        <input type="text" placeholder="Agent ID">
+        <button>Go</button>
+      </div>
+    </div>
+
+    
+    <!-- Clients Section -->
+<div id="clients" class="section">
+  <h1>Clients</h1>
+  <div class="card">
+    <label for="searchClient">🔍 Search by Client ID:</label>
+    <input type="text" id="searchClient" placeholder="Enter Client ID" oninput="filterClients()">
+    <table id="clientsTable" style="width:100%; margin-top: 20px; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- JS will populate 100 clients here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Client Details Section (Hidden by default) -->
+<div id="clientDetails" class="section" style="display:none">
+  <h1>Client Profile</h1>
+  <div class="card">
+    <button onclick="backToClients()">⬅ Back to Clients</button>
+    <h3 id="clientName">Client Name</h3>
+    <p><strong>Phone:</strong> <span id="clientPhone"></span></p>
+    <p><strong>Email:</strong> <span id="clientEmail"></span></p>
+    <hr>
+    <h4>💳 Financial Transactions</h4>
+    <ul id="financialOperations"></ul>
+    <h4>🧾 Activity Logs</h4>
+    <ul id="activityLogs"></ul>
+  </div>
+</div>
+
+    <!-- Clients Section -->
+<div id="clients" class="section">
+  <h1>Clients</h1>
+  <div class="card">
+    <label for="searchClient">🔍 Search by Client ID:</label>
+    <input type="text" id="searchClient" placeholder="Enter Client ID" oninput="filterClients()">
+    <table id="clientsTable" style="width:100%; margin-top: 20px; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- JS will populate 100 clients here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Client Details Section (Hidden by default) -->
+<div id="clientDetails" class="section" style="display:none">
+  <h1>Client Profile</h1>
+  <div class="card">
+    <button onclick="backToClients()">⬅ Back to Clients</button>
+    <h3 id="clientName">Client Name</h3>
+    <p><strong>Phone:</strong> <span id="clientPhone"></span></p>
+    <p><strong>Email:</strong> <span id="clientEmail"></span></p>
+    <hr>
+    <h4>💳 Financial Transactions</h4>
+    <ul id="financialOperations"></ul>
+    <h4>🧾 Activity Logs</h4>
+    <ul id="activityLogs"></ul>
+  </div>
+</div>
+
+<<!-- Active Users Section -->
+<div id="users" class="section">
+  <h1>Active Users</h1>
+  <div class="card">
+    <table id="usersTable" style="width:100%; margin-top: 20px; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- JS will populate users here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+    <!-- Payment -->
+    <div id="payment" class="section">
+      <h1>Payment</h1>
+      <div class="card">
+        <p>This is the Payment section.</p>
+      </div>
+    </div>
+
+    <!-- Winners -->
+    <div id="winners" class="section">
+      <h1>Winners</h1>
+      <div class="card">
+        <p>This is the Winners section.</p>
+      </div>
+    </div>
+
+    <!-- Bonus -->
+    <div id="bonus" class="section">
+      <h1>Bonus</h1>
+      <div class="card">
+        <p>This is the Bonus section.</p>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div id="settings" class="section">
+      <h1>Settings</h1>
+      <div class="card">
+        <p>This is the Settings section.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    
+    function showSection(id) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+    }
+
+    clientInformation
+    const dummyClients = Array.from({ length: 100 }, (_, i) => ({
+    id: i + 1,
+    name: `Client ${i + 1}`,
+    phone: `079${String(i).padStart(7, '0')}`,
+    email: `client${i + 1}@example.com`,
+    operations: [
+      `Deposited $${10 + i}`,
+      `Withdrew $${5 + i}`,
+      `Transferred ${100 + i} MZ`
+    ],
+    logs: [
+      `Logged in at ${(8 + i) % 24}:00`,
+      `Viewed dashboard`,
+      `Made transaction`
+    ]
+  }));
+
+  const tbody = document.querySelector('#clientsTable tbody');
+  dummyClients.forEach(client => {
+    const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.innerHTML = `
+      <td onclick="showClient(${client.id})">${client.name}</td>
+      <td>${client.phone}</td>
+      <td>${client.email}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  function showClient(id) {
+    const client = dummyClients.find(c => c.id === id);
+    if (!client) return;
+    document.getElementById('clients').style.display = 'none';
+    document.getElementById('clientDetails').style.display = 'block';
+    document.getElementById('clientName').innerText = client.name;
+    document.getElementById('clientPhone').innerText = client.phone;
+    document.getElementById('clientEmail').innerText = client.email;
+    const ops = document.getElementById('financialOperations');
+    const logs = document.getElementById('activityLogs');
+    ops.innerHTML = '';
+    logs.innerHTML = '';
+    client.operations.forEach(op => ops.innerHTML += `<li>${op}</li>`);
+    client.logs.forEach(log => logs.innerHTML += `<li>${log}</li>`);
+  }
+
+  function backToClients() {
+    document.getElementById('clients').style.display = 'block';
+    document.getElementById('clientDetails').style.display = 'none';
+  }
+
+  function filterClients() {
+    const query = document.getElementById('searchClient').value.toLowerCase();
+    const rows = document.querySelectorAll('#clientsTable tbody tr');
+    rows.forEach(row => {
+      const name = row.cells[0].textContent.toLowerCase();
+      const idMatch = name.includes(query);
+      row.style.display = idMatch ? '' : 'none';
+    });
+  }
+
+  status
+  const dummClients = Array.from({ length: 100 }, (_, i) => ({
+    id: i + 1,
+    name: `Client ${i + 1}`,
+    phone: `079${String(i).padStart(7, '0')}`,
+    email: `client${i + 1}@example.com`,
+    operations: [
+      `Deposited $${10 + i}`,
+      `Withdrew $${5 + i}`,
+      `Transferred ${100 + i} MZ`
+    ],
+    logs: [
+      `Logged in at ${(8 + i) % 24}:00`,
+      `Viewed dashboard`,
+      `Made transaction`
+    ]
+  }));
+
+  const dummyUsers = Array.from({ length: 50 }, (_, i) => ({
+    name: `User ${i + 1}`,
+    online: i % 2 === 0
+  }));
+
+  const body = document.querySelector('#clientsTable tbody');
+  dummyClients.forEach(client => {
+    const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.innerHTML = `
+      <td onclick="showClient(${client.id})">${client.name}</td>
+      <td>${client.phone}</td>
+      <td>${client.email}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  const usersBody = document.querySelector('#usersTable tbody');
+  dummyUsers.forEach(user => {
+    const tr = document.createElement('tr');
+    const statusText = user.online ? '🟢 Online' : '🔴 Offline';
+    tr.innerHTML = `
+      <td>${user.name}</td>
+      <td>${statusText}</td>
+    `;
+    usersBody.appendChild(tr);
+  });
+
+  function showClient(id) {
+    const client = dummyClients.find(c => c.id === id);
+    if (!client) return;
+    document.getElementById('clients').style.display = 'none';
+    document.getElementById('clientDetails').style.display = 'block';
+    document.getElementById('clientName').innerText = client.name;
+    document.getElementById('clientPhone').innerText = client.phone;
+    document.getElementById('clientEmail').innerText = client.email;
+    const ops = document.getElementById('financialOperations');
+    const logs = document.getElementById('activityLogs');
+    ops.innerHTML = '';
+    logs.innerHTML = '';
+    client.operations.forEach(op => ops.innerHTML += `<li>${op}</li>`);
+    client.logs.forEach(log => logs.innerHTML += `<li>${log}</li>`);
+  }
+
+  function backToClients() {
+    document.getElementById('clients').style.display = 'block';
+    document.getElementById('clientDetails').style.display = 'none';
+  }
+
+  function filterClients() {
+    const query = document.getElementById('searchClient').value.toLowerCase();
+    const rows = document.querySelectorAll('#clientsTable tbody tr');
+    rows.forEach(row => {
+      const name = row.cells[0].textContent.toLowerCase();
+      const idMatch = name.includes(query);
+      row.style.display = idMatch ? '' : 'none';
+    });
+  }
+
+  </script>
+</body>
+</html>
